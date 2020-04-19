@@ -5,7 +5,6 @@ import {
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/core";
-import Head from "next/head";
 import { IoMdSearch } from "react-icons/io";
 import { NavMenu } from "./NavMenu";
 import { FlexNavItem } from "./FlexNavItem";
@@ -16,12 +15,6 @@ export const Header = () => {
 
   return (
     <>
-      <Head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&family=Noto+Serif+SC:wght@500&display=swap"
-          rel="stylesheet"
-        ></link>
-      </Head>
       <Flex as="header" backgroundColor="black" justifyContent="center">
         <Flex flex="0 1 100rem" maxWidth="80rem">
           <FlexNavItem display={[show ? "Flex" : "none", null, "Flex"]}>
