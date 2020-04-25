@@ -13,6 +13,7 @@
     "@emotion/styled": "^10.0.27",
     "emotion-theming": "^10.0.27",
     "next": "9.3.4",
+    "pure-react-carousel": "^1.27.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-icons": "^3.9.0"

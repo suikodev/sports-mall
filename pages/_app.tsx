@@ -2,6 +2,7 @@ import React from "react";
 import NextApp from "next/app";
 import { ThemeProvider, CSSReset, ColorModeProvider } from "@chakra-ui/core";
 import { theme } from "../theme/theme";
+import "pure-react-carousel/dist/react-carousel.es.css";
 
 class App extends NextApp {
   render() {
