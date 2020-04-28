@@ -5,32 +5,30 @@ import {
   CarouselProviderProps,
 } from "pure-react-carousel";
 import { ButtonBack, ButtonNext } from "./NavigateButton";
-import { CarouselImageItem } from "./CarouselImageItem";
+import { CarouselImage, CarouselImageItem } from "./CarouselImageItem";
 import { jsx } from "@emotion/core";
 import { DotsGroup } from "./DotsGroup";
 import React from "react";
 
+type CarouselImageList = Array<CarouselImage>;
+
 type CarouselProps = Partial<CarouselProviderProps> & {
   naturalSlideHeight: number;
   naturalSlideWidth: number;
-  imageList: Array<{
-    src: string;
-    alt: string;
-    linkUrl: string;
-  }>;
+  carouselImageList: CarouselImageList;
 };
 
-export const Carousel: React.FC<CarouselProps> = (props) => {
-  const carouselItems = props.imageList.map((image, index) => (
+const Carousel: React.FC<CarouselProps> = (props) => {
+  const carouselItems = props.carouselImageList.map((image, index) => (
     <CarouselImageItem key={index} index={index} {...image} />
   ));
 
   const CarouselProps = JSON.parse(JSON.stringify(props));
-  delete CarouselProps.imageList;
+  delete CarouselProps.carouselImageList;
 
   return (
     <CarouselProvider
-      totalSlides={props.imageList.length}
+      totalSlides={props.carouselImageList.length}
       {...CarouselProps}
       css={{
         position: "relative",
@@ -45,7 +43,10 @@ export const Carousel: React.FC<CarouselProps> = (props) => {
       </Slider>
       <ButtonBack />
       <ButtonNext />
-      <DotsGroup totalSlides={props.imageList.length} />
+      <DotsGroup totalSlides={props.carouselImageList.length} />
     </CarouselProvider>
   );
 };
+
+export { Carousel };
+export type { CarouselImageList };

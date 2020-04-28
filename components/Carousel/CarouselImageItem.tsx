@@ -4,18 +4,21 @@ import { jsx } from "@emotion/core";
 import { Skeleton } from "@chakra-ui/core";
 import Link from "next/link";
 
-interface CarouselImageItemProps {
-  onLoad?: () => void;
-  index: number;
+export interface CarouselImage {
   src: string;
   alt: string;
-  linkUrl: string;
+  targetUrl: string;
+}
+
+interface CarouselImageItemProps extends CarouselImage {
+  onLoad?: () => void;
+  index: number;
 }
 
 export const CarouselImageItem: React.FC<CarouselImageItemProps> = (props) => {
   return (
     <Slide index={props.index}>
-      <Link href={props.linkUrl}>
+      <Link href={props.targetUrl}>
         <Image
           css={{
             objectFit: "cover",
