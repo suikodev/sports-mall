@@ -1,9 +1,10 @@
 import { Flex, Link, LinkProps } from "@chakra-ui/core";
 import { FlexContainer } from "../FlexContainer";
 import { Text } from "@chakra-ui/core";
+import React from "react";
 
 const UnderlineLink: React.FC<LinkProps> = (props) => (
-  <Link textDecoration="underline" {...props}></Link>
+  <Link textDecoration="underline" {...props} />
 );
 
 export const Footer: React.FC = () => {

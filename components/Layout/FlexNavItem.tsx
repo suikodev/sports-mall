@@ -1,4 +1,5 @@
 import { Flex, FlexProps } from "@chakra-ui/core";
+import React from "react";
 
 export const FlexNavItem: React.FC<FlexProps> = (props) => (
   <Flex
@@ -6,5 +7,5 @@ export const FlexNavItem: React.FC<FlexProps> = (props) => (
     justifyContent="center"
     alignItems="center"
     {...props}
-  ></Flex>
+  />
 );

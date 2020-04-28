@@ -8,6 +8,7 @@ import { ButtonBack, ButtonNext } from "./NavigateButton";
 import { CarouselImageItem } from "./CarouselImageItem";
 import { jsx } from "@emotion/core";
 import { DotsGroup } from "./DotsGroup";
+import React from "react";
 
 type CarouselProps = Partial<CarouselProviderProps> & {
   naturalSlideHeight: number;
@@ -24,7 +25,7 @@ export const Carousel: React.FC<CarouselProps> = (props) => {
     <CarouselImageItem key={index} index={index} {...image} />
   ));
 
-  let CarouselProps = JSON.parse(JSON.stringify(props));
+  const CarouselProps = JSON.parse(JSON.stringify(props));
   delete CarouselProps.imageList;
 
   return (
@@ -42,9 +43,9 @@ export const Carousel: React.FC<CarouselProps> = (props) => {
       >
         {carouselItems}
       </Slider>
-      <ButtonBack></ButtonBack>
-      <ButtonNext></ButtonNext>
-      <DotsGroup totalSlides={props.imageList.length}></DotsGroup>
+      <ButtonBack />
+      <ButtonNext />
+      <DotsGroup totalSlides={props.imageList.length} />
     </CarouselProvider>
   );
 };

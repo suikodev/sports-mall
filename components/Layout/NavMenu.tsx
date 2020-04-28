@@ -1,9 +1,10 @@
 import { Flex, Button, FlexProps, ButtonProps } from "@chakra-ui/core";
 import { FlexNavItem } from "./FlexNavItem";
 import { IoMdList, IoMdCart, IoMdPerson, IoMdHome } from "react-icons/io";
+import React from "react";
 
 const NavLinkButton: React.FC<ButtonProps> = (props) => (
-  <Button variant="link" color="white" {...props}></Button>
+  <Button variant="link" color="white" {...props} />
 );
 
 export const NavMenu: React.FC<FlexProps> = (props) => {

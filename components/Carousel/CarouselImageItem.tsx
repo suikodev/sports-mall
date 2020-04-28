@@ -23,7 +23,7 @@ export const CarouselImageItem: React.FC<CarouselImageItemProps> = (props) => {
           hasMasterSpinner={false}
           src={props.src}
           alt={props.alt}
-          renderLoading={() => <Skeleton height="100%"></Skeleton>}
+          renderLoading={(): JSX.Element => <Skeleton height="100%" />}
         />
       </Link>
     </Slide>

@@ -1,4 +1,5 @@
 import { Flex, FlexProps } from "@chakra-ui/core";
+import React from "react";
 
 /**
  * FlexContainer is a flex <div> to set max width.
@@ -9,5 +10,5 @@ import { Flex, FlexProps } from "@chakra-ui/core";
  * html -> body -> header || section || footer -> this FlexContainer component -> other UI components
  */
 export const FlexContainer: React.FC<FlexProps> = (props) => (
-  <Flex flex="0 1 80rem" {...props}></Flex>
+  <Flex flex="0 1 80rem" {...props} />
 );

@@ -8,10 +8,10 @@ import {
 import { IoMdSearch } from "react-icons/io";
 import { NavMenu } from "./NavMenu";
 import { FlexNavItem } from "./FlexNavItem";
-import { useState } from "react";
+import React, { useState } from "react";
 import { FlexContainer } from "../FlexContainer";
 
-export const Header = () => {
+export const Header: React.FC = () => {
   const [show, setShow] = useState(true);
 
   return (
@@ -26,27 +26,23 @@ export const Header = () => {
 
           <FlexNavItem flex="1 1 auto">
             <InputGroup flex="0 1 40rem">
-              <label htmlFor="product-search-bar" aria-label="商品搜索"></label>
+              <label htmlFor="product-search-bar" aria-label="商品搜索" />
               <Input
                 id="product-search-bar"
-                onBlur={() => setShow(true)}
-                onFocus={() => setShow(false)}
+                onBlur={(): void => setShow(true)}
+                onFocus={(): void => setShow(false)}
                 placeholder="搜索商品..."
                 focusBorderColor="primary.500"
-              ></Input>
+              />
               <InputRightElement>
-                <Box as={IoMdSearch} size="2rem" color="primary.500"></Box>
+                <Box as={IoMdSearch} size="2rem" color="primary.500" />
               </InputRightElement>
             </InputGroup>
           </FlexNavItem>
           <NavMenu display={["none", null, "flex"]} flex="0"></NavMenu>
         </FlexContainer>
       </Flex>
-      <NavMenu
-        display={["flex", null, "none"]}
-        position="fixed"
-        bottom="0"
-      ></NavMenu>
+      <NavMenu display={["flex", null, "none"]} position="fixed" bottom="0" />
     </>
   );
 };

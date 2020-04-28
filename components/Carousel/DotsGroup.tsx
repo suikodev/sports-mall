@@ -4,9 +4,9 @@ import {
   DotProps as DefaultDotProps,
   CarouselContext,
 } from "pure-react-carousel";
-import { Button, Box, Flex } from "@chakra-ui/core";
+import { Box, Flex } from "@chakra-ui/core";
 import { jsx } from "@emotion/core";
-import { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
 type DotProps = Partial<DefaultDotProps> & {
   slide: number;
@@ -22,11 +22,11 @@ const Dot: React.FC<DotProps> = (props) => {
     carouselContext.state.currentSlide
   );
   useEffect(() => {
-    const onChange = () => {
+    const onChange = (): void => {
       setCurrentSlide(carouselContext.state.currentSlide);
     };
     carouselContext.subscribe(onChange);
-    return () => carouselContext.unsubscribe(onChange);
+    return (): void => carouselContext.unsubscribe(onChange);
   }, [carouselContext]);
   return (
     <DefaultDot {...props}>
@@ -35,16 +35,16 @@ const Dot: React.FC<DotProps> = (props) => {
           size={["0.5rem", null, "1rem"]}
           rounded="full"
           backgroundColor={currentSlide === props.slide ? "#3333ee" : "#aa00cc"}
-        ></Box>
+        />
       </Box>
     </DefaultDot>
   );
 };
 
 export const DotsGroup: React.FC<DotsGroupProps> = (props) => {
-  let dotItems = [];
+  const dotItems = [];
   for (let index = 0; index < props.totalSlides; index++) {
-    dotItems.push(<Dot slide={index} key={index}></Dot>);
+    dotItems.push(<Dot slide={index} key={index} />);
   }
   return (
     <Flex

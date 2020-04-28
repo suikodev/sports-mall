@@ -1,4 +1,5 @@
 import { IconButton, IconButtonProps } from "@chakra-ui/core";
+import React from "react";
 
 export const NavigateButton: React.FC<IconButtonProps> = (props) => {
   return (
@@ -12,6 +13,6 @@ export const NavigateButton: React.FC<IconButtonProps> = (props) => {
       isRound
       color="white"
       {...props}
-    ></IconButton>
+    />
   );
 };
