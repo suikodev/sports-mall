@@ -39,7 +39,7 @@ export const Header: React.FC = () => {
               </InputRightElement>
             </InputGroup>
           </FlexNavItem>
-          <NavMenu display={["none", null, "flex"]} flex="0"></NavMenu>
+          <NavMenu display={["none", null, "flex"]} flex="0" />
         </FlexContainer>
       </Flex>
       <NavMenu display={["flex", null, "none"]} position="fixed" bottom="0" />
