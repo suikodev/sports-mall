@@ -6,12 +6,12 @@ import "pure-react-carousel/dist/react-carousel.es.css";
 
 class App extends NextApp {
   render(): JSX.Element {
-    const { Component } = this.props;
+    const { Component, pageProps } = this.props;
     return (
       <ThemeProvider theme={theme}>
         <CSSReset />
         <ColorModeProvider>
-          <Component />
+          <Component {...pageProps} />
         </ColorModeProvider>
       </ThemeProvider>
     );
