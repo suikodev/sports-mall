@@ -7,6 +7,7 @@ const NavLinkButton: React.FC<ButtonProps> = (props) => (
   <Button variant="link" color="white" {...props} />
 );
 
+//I use NavMenu on Header for tablet and desktop, on Footer for mobile
 export const NavMenu: React.FC<FlexProps> = (props) => {
   return (
     <Flex
