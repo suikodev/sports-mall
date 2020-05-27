@@ -45,13 +45,7 @@ const Carousel: React.FC<CarouselProps> = (props) => {
         position: "relative",
       }}
     >
-      <Slider
-        css={{
-          borderRadius: "0.5rem",
-        }}
-      >
-        {carouselItems}
-      </Slider>
+      <Slider>{carouselItems}</Slider>
       <ButtonBack />
       <ButtonNext />
       <DotsGroup totalSlides={props.carouselImageList?.length || 1} />

@@ -24,7 +24,7 @@ export const Header: React.FC = () => {
         </FlexNavItem>
 
         <FlexNavItem flex="1 1 auto">
-          <InputGroup flex="0 1 40rem">
+          <InputGroup flex="0 1 30rem">
             <label htmlFor="product-search-bar" aria-label="商品搜索" />
             <Input
               id="product-search-bar"
