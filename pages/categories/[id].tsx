@@ -1,40 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { Layout } from "../components/Layout";
+import { Layout } from "../../components/Layout";
 import { Flex, Box, IconButton, Text } from "@chakra-ui/core";
-import { FlexContainer } from "../components/FlexContainer";
-import { GetStaticProps } from "next";
+import { FlexContainer } from "../../components/FlexContainer";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { Grid } from "@chakra-ui/core/dist";
-import { ProductCard, ProductCardProps } from "../components/ProductCard";
-import { fetcher } from "../utils";
+import { ProductCard, ProductCardProps } from "../../components/ProductCard";
+import { fetcher } from "../../utils";
 import { useRouter } from "next/router";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
-import { LogoHeader } from "../components/LogoHeader";
+import { LogoHeader } from "../../components/LogoHeader";
 import Head from "next/head";
 import { IoMdList } from "react-icons/io";
 
 const query = `
-{
-  allProducts{
-    data{
-      _id
-      name
-      image
-      price
+query($id:ID!){
+  findCategoryByID(id:$id){
+    name
+    products{
+      data{
+        _id
+        name
+        image
+        price
+      }
     }
   }
 }
 `;
 type queryResult = {
-  allProducts: {
-    data: Array<ProductCardProps>;
+  findCategoryByID: {
+    name: string;
+    products: {
+      data: Array<ProductCardProps>;
+    };
   };
 };
 
-type IndexProps = {
+type CategoryProps = {
   products: Array<ProductCardProps>;
+  name: string;
 };
 
-const Index: React.FC<IndexProps> = (props) => {
+const Category: React.FC<CategoryProps> = (props) => {
   const router = useRouter();
   const { p } = router.query;
   let productCards: Array<JSX.Element>;
@@ -57,11 +64,12 @@ const Index: React.FC<IndexProps> = (props) => {
   return (
     <Layout>
       <Head>
-        <title>运动商城 | 首页</title>
+        <title>运动商城 | {props.name}</title>
       </Head>
       <LogoHeader>
+        <Box as={IoMdList} color="white" fontSize="6xl" />
         <Text fontSize="5xl" color="white">
-          全部商品
+          {props.name}
         </Text>
       </LogoHeader>
       <Flex as="section" justifyContent="center" backgroundColor="#F9F9F9">
@@ -117,12 +125,38 @@ const Index: React.FC<IndexProps> = (props) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetcher<queryResult>(query);
-  const products = res.allProducts.data;
-  return {
-    props: { products },
+const pathQuery = `
+{
+  allCategories{
+  data{
+    _id
+  }
+}
+}
+`;
+type PathQueryResult = {
+  allCategories: {
+    data: Array<{ _id: string }>;
   };
 };
 
-export default Index;
+export const getStaticPaths: GetStaticPaths = async () => {
+  const res = await fetcher<PathQueryResult>(pathQuery);
+  const paths = res.allCategories.data.map((category) => ({
+    params: { id: category._id },
+  }));
+  return { paths, fallback: true };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const res = await fetcher<queryResult>(query, process.env.faunaClientSecret, {
+    id: params?.id,
+  });
+  const products = res.findCategoryByID.products.data;
+  const name = res.findCategoryByID.name;
+  return {
+    props: { products, name },
+  };
+};
+
+export default Category;

@@ -1,40 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { Layout } from "../components/Layout";
+import { Layout } from "../../components/Layout";
 import { Flex, Box, IconButton, Text } from "@chakra-ui/core";
-import { FlexContainer } from "../components/FlexContainer";
-import { GetStaticProps } from "next";
+import { FlexContainer } from "../../components/FlexContainer";
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import { Grid } from "@chakra-ui/core/dist";
-import { ProductCard, ProductCardProps } from "../components/ProductCard";
-import { fetcher } from "../utils";
+import { ProductCard, ProductCardProps } from "../../components/ProductCard";
+import { fetcher } from "../../utils";
 import { useRouter } from "next/router";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
-import { LogoHeader } from "../components/LogoHeader";
+import { LogoHeader } from "../../components/LogoHeader";
 import Head from "next/head";
 import { IoMdList } from "react-icons/io";
 
 const query = `
-{
-  allProducts{
-    data{
-      _id
-      name
-      image
-      price
-    }
+query($name:String!){
+  searchProductsByName(name:$name){
+    _id
+    name
+    image
+    price
   }
 }
 `;
 type queryResult = {
-  allProducts: {
-    data: Array<ProductCardProps>;
-  };
+  searchProductsByName: Array<ProductCardProps>;
 };
 
-type IndexProps = {
+type SearchPageProps = {
   products: Array<ProductCardProps>;
+  name: string;
 };
 
-const Index: React.FC<IndexProps> = (props) => {
+const SearchPage: React.FC<SearchPageProps> = (props) => {
   const router = useRouter();
   const { p } = router.query;
   let productCards: Array<JSX.Element>;
@@ -57,11 +54,12 @@ const Index: React.FC<IndexProps> = (props) => {
   return (
     <Layout>
       <Head>
-        <title>运动商城 | 首页</title>
+        <title>运动商城 | {props.name}</title>
       </Head>
       <LogoHeader>
+        <Box as={IoMdList} color="white" fontSize="6xl" />
         <Text fontSize="5xl" color="white">
-          全部商品
+          {props.name}
         </Text>
       </LogoHeader>
       <Flex as="section" justifyContent="center" backgroundColor="#F9F9F9">
@@ -83,7 +81,7 @@ const Index: React.FC<IndexProps> = (props) => {
               backgroundColor={"white"}
               onClick={() => {
                 if (page > 1 || maxPage !== 1) {
-                  router.push(`/?p=${page - 1}`);
+                  router.push(`/search/${props.name}?p=${page - 1}`);
                 }
               }}
               size="lg"
@@ -101,7 +99,7 @@ const Index: React.FC<IndexProps> = (props) => {
               backgroundColor={"white"}
               onClick={() => {
                 if (page !== maxPage) {
-                  router.push(`/?p=${page + 1}`);
+                  router.push(`/search/${props.name}?p=${page + 1}`);
                 }
               }}
               size="lg"
@@ -117,12 +115,14 @@ const Index: React.FC<IndexProps> = (props) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetcher<queryResult>(query);
-  const products = res.allProducts.data;
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const res = await fetcher<queryResult>(query, process.env.faunaClientSecret, {
+    name: params?.q,
+  });
+  const products = res.searchProductsByName;
   return {
-    props: { products },
+    props: { products, name: params?.q },
   };
 };
 
-export default Index;
+export default SearchPage;
