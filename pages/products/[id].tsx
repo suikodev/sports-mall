@@ -16,6 +16,9 @@ type ProductProps = {
 };
 
 const Product: React.FC<ProductProps> = (props) => {
+  if (!props.name) {
+    return <></>;
+  }
   const router = useRouter();
   const toast = useToast();
   return (

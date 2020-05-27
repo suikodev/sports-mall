@@ -43,6 +43,9 @@ type CategoryProps = {
 
 const Category: React.FC<CategoryProps> = (props) => {
   const router = useRouter();
+  if (!props.products) {
+    return <></>;
+  }
   const { p } = router.query;
   let productCards: Array<JSX.Element>;
   let page: number;
@@ -51,7 +54,7 @@ const Category: React.FC<CategoryProps> = (props) => {
   } else {
     page = 1;
   }
-  const maxPage = Math.ceil(props.products.length / 8);
+  const maxPage = Math.ceil(props.products?.length / 8);
   if (page <= maxPage) {
     productCards = props.products
       .slice((page - 1) * 8, page * 8)
