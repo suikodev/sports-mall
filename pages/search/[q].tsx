@@ -92,7 +92,7 @@ const SearchPage: React.FC<SearchPageProps> = (props) => {
             />
             <Flex paddingX="1rem">
               <Text fontSize="2xl" color="primary.500">
-                {page} / {maxPage}
+                {page} / {maxPage || 1}
               </Text>
             </Flex>
             <IconButton
@@ -116,10 +116,14 @@ const SearchPage: React.FC<SearchPageProps> = (props) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const res = await fetcher<queryResult>(query, process.env.faunaClientSecret, {
-    name: params?.q,
-  });
-  const products = res.searchProductsByName;
+  const result = await fetcher<queryResult>(
+    query,
+    process.env.faunaClientSecret,
+    {
+      name: params?.q,
+    }
+  );
+  const products = result.searchProductsByName;
   return {
     props: { products, name: params?.q },
   };

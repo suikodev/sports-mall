@@ -45,6 +45,20 @@ const NavLinkButton: React.FC<ButtonProps> = (props) => (
 
 //I use NavMenu on Header for tablet and desktop, on Footer for mobile
 export const NavMenu: React.FC<FlexProps> = (props) => {
+  const [amount, setAmount] = useState(0);
+  useEffect(() => {
+    const cart = localStorage.getItem("cart");
+    if (cart == null) {
+      setAmount(0);
+    } else {
+      const cartArray = JSON.parse(cart);
+      let total = 0;
+      cartArray.forEach((e: { quantity: number; price: number }) => {
+        total += e.price * e.quantity;
+      });
+      setAmount(total);
+    }
+  }, []);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [categories, setCategories] = useState(
     [] as Array<{
@@ -69,6 +83,7 @@ export const NavMenu: React.FC<FlexProps> = (props) => {
       </Flex>
     ));
   }
+
   return (
     <Flex
       {...props}
@@ -101,7 +116,7 @@ export const NavMenu: React.FC<FlexProps> = (props) => {
       </FlexNavItem>
 
       <FlexNavItem>
-        <NavLinkButton leftIcon={IoMdCart}>88 ￥</NavLinkButton>
+        <NavLinkButton leftIcon={IoMdCart}>{amount} ￥</NavLinkButton>
       </FlexNavItem>
 
       <FlexNavItem>

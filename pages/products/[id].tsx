@@ -8,11 +8,12 @@ import { IoMdCart, IoIosArrowDropleftCircle } from "react-icons/io";
 import { useRouter } from "next/router";
 
 type ProductProps = {
+  _id: string;
   name: string;
   description: string;
-  quantity: string;
+  quantity: number;
   image: Array<string>;
-  price: string;
+  price: number;
 };
 
 const Product: React.FC<ProductProps> = (props) => {
@@ -57,15 +58,54 @@ const Product: React.FC<ProductProps> = (props) => {
               variantColor="primary"
               width="100%"
               leftIcon={IoMdCart}
-              onClick={() =>
+              onClick={() => {
                 toast({
                   position: "top-right",
                   title: "商品已添加至购物车",
                   status: "success",
                   duration: 5000,
                   isClosable: true,
-                })
-              }
+                });
+                let cart = localStorage.getItem("cart");
+                if (!cart) {
+                  cart = JSON.stringify([
+                    {
+                      id: props._id,
+                      name: props.name,
+                      price: props.price,
+                      image: props.image[0],
+                      quantity: 1,
+                    },
+                  ]);
+                  localStorage.setItem("cart", cart);
+                } else {
+                  const a: Array<{
+                    id: string;
+                    quantity: number;
+                    name: string;
+                    price: number;
+                    image: string;
+                  }> = JSON.parse(cart);
+                  let k = 0;
+                  for (let i = 0; i < a.length; i++) {
+                    if (a[i].id === props._id) {
+                      a[i].quantity += 1;
+                      console.log(a[i].quantity);
+                      k += 1;
+                    }
+                  }
+                  if (k === 0) {
+                    a.push({
+                      id: props._id,
+                      name: props.name,
+                      quantity: 1,
+                      price: props.price,
+                      image: props.image[0],
+                    });
+                  }
+                  localStorage.setItem("cart", JSON.stringify(a));
+                }
+              }}
             >
               添加至购物车
             </Button>
@@ -112,6 +152,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const productQuery = `
 query($id:ID!){
   findProductByID(id:$id){
+    _id
     name
     description
     quantity
