@@ -7,6 +7,7 @@ export const PaginationBar: React.FC<{ page: number; maxPage: number }> = (
   props
 ) => {
   const router = useRouter();
+
   return (
     <Flex
       width="100%"
@@ -17,8 +18,13 @@ export const PaginationBar: React.FC<{ page: number; maxPage: number }> = (
       <IconButton
         backgroundColor={"white"}
         onClick={() => {
-          if (props.page > 1 || props.maxPage !== 1) {
-            router.push(`/?p=${props.page - 1}`).then();
+          if (props.page > 1) {
+            router
+              .push({
+                pathname: router.pathname,
+                query: { ...router.query, p: props.page - 1 },
+              })
+              .then();
           }
         }}
         size="lg"
@@ -35,8 +41,13 @@ export const PaginationBar: React.FC<{ page: number; maxPage: number }> = (
       <IconButton
         backgroundColor={"white"}
         onClick={() => {
-          if (props.page !== props.maxPage) {
-            router.push(`/?p=${props.page + 1}`).then();
+          if (props.page < props.maxPage) {
+            router
+              .push({
+                pathname: router.pathname,
+                query: { ...router.query, p: props.page + 1 },
+              })
+              .then();
           }
         }}
         size="lg"

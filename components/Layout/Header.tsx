@@ -44,7 +44,7 @@ export const Header: React.FC = () => {
               focusBorderColor="primary.500"
             />
             <InputRightElement>
-              <NextLink href={`/search/${value}`}>
+              <NextLink href={`/search?q=${value}`}>
                 <Link color="primary.500" _hover={{ color: "secondary.500" }}>
                   <Box as={IoMdSearch} size="2rem" />
                 </Link>
