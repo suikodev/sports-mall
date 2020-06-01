@@ -1,6 +1,5 @@
-import { Flex, Link, LinkProps } from "@chakra-ui/core";
+import { Flex, Link, LinkProps, Text } from "@chakra-ui/core";
 import { FlexContainer } from "../FlexContainer";
-import { Text } from "@chakra-ui/core";
 import React from "react";
 import { NavMenu } from "./NavMenu";
 

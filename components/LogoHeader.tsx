@@ -1,6 +1,5 @@
 import React from "react";
-import { Flex, Text, Box } from "@chakra-ui/core";
-import { IoMdList } from "react-icons/io";
+import { Flex } from "@chakra-ui/core";
 
 export const LogoHeader: React.FC = (props) => {
   return (

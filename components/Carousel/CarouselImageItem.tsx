@@ -1,5 +1,5 @@
 /**@jsx jsx */
-import { Slide, Image } from "pure-react-carousel";
+import { Image, Slide } from "pure-react-carousel";
 import { jsx } from "@emotion/core";
 import { Skeleton } from "@chakra-ui/core";
 import Link from "next/link";

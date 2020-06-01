@@ -1,19 +1,18 @@
 import {
-  Text,
-  Flex,
   Button,
-  FlexProps,
   ButtonProps,
-  Icon,
-  Link,
-  useDisclosure,
   Drawer,
-  DrawerOverlay,
-  DrawerContent,
   DrawerBody,
+  DrawerContent,
+  DrawerOverlay,
+  Flex,
+  FlexProps,
+  Link,
+  Text,
+  useDisclosure,
 } from "@chakra-ui/core";
 import { FlexNavItem } from "./FlexNavItem";
-import { IoMdList, IoMdCart, IoMdPerson, IoMdHome } from "react-icons/io";
+import { IoMdCart, IoMdHome, IoMdList, IoMdPerson } from "react-icons/io";
 import React, { useEffect, useState } from "react";
 import NavLink from "next/link";
 import { DrawerHeader } from "@chakra-ui/core/dist";
@@ -117,7 +116,7 @@ export const NavMenu: React.FC<FlexProps> = (props) => {
         </Drawer>
       </FlexNavItem>
 
-      <FlexNavItem>
+      <FlexNavItem width="10rem">
         <NavLinkButton leftIcon={IoMdCart}>{amount} ￥</NavLinkButton>
       </FlexNavItem>
 

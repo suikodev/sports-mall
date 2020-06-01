@@ -1,6 +1,6 @@
 import React from "react";
 import NextApp from "next/app";
-import { ThemeProvider, CSSReset, ColorModeProvider } from "@chakra-ui/core";
+import { CSSReset, ThemeProvider } from "@chakra-ui/core";
 import { theme } from "../theme";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import "../public/global.css";

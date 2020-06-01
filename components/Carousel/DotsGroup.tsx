@@ -1,12 +1,12 @@
 /** @jsx jsx */
 import {
+  CarouselContext,
   Dot as DefaultDot,
   DotProps as DefaultDotProps,
-  CarouselContext,
 } from "pure-react-carousel";
 import { Box, Flex } from "@chakra-ui/core";
 import { jsx } from "@emotion/core";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 type DotProps = Partial<DefaultDotProps> & {
   slide: number;

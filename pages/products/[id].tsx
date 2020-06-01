@@ -1,10 +1,10 @@
 import React from "react";
-import { Text, Image, Flex, Divider, useToast } from "@chakra-ui/core";
+import { Divider, Flex, Image, Text, useToast } from "@chakra-ui/core";
 import { fetcher } from "../../utils";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { Layout } from "../../components/Layout";
 import { Button } from "@chakra-ui/core/dist";
-import { IoMdCart, IoIosArrowDropleftCircle } from "react-icons/io";
+import { IoIosArrowDropleftCircle, IoMdCart } from "react-icons/io";
 import { useRouter } from "next/router";
 
 type ProductProps = {
@@ -22,6 +22,55 @@ const Product: React.FC<ProductProps> = (props) => {
   }
   const router = useRouter();
   const toast = useToast();
+
+  const addProductToCart = () => {
+    toast({
+      position: "top-right",
+      title: "商品已添加至购物车",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    });
+    let cart = localStorage.getItem("cart");
+    if (!cart) {
+      cart = JSON.stringify([
+        {
+          id: props._id,
+          name: props.name,
+          price: props.price,
+          image: props.image[0],
+          quantity: 1,
+        },
+      ]);
+      localStorage.setItem("cart", cart);
+    } else {
+      const a: Array<{
+        id: string;
+        quantity: number;
+        name: string;
+        price: number;
+        image: string;
+      }> = JSON.parse(cart);
+      let k = 0;
+      for (let i = 0; i < a.length; i++) {
+        if (a[i].id === props._id) {
+          a[i].quantity += 1;
+          k += 1;
+        }
+      }
+      if (k === 0) {
+        a.push({
+          id: props._id,
+          name: props.name,
+          quantity: 1,
+          price: props.price,
+          image: props.image[0],
+        });
+      }
+      localStorage.setItem("cart", JSON.stringify(a));
+    }
+  };
+
   return (
     <Layout>
       <Flex as="section" justifyContent="center" paddingY="10rem">
@@ -30,17 +79,22 @@ const Product: React.FC<ProductProps> = (props) => {
           backgroundColor="white"
           justifyContent="center"
           flexWrap="wrap"
-          paddingX="5rem"
+          paddingX={["1rem", null, "5rem"]}
         >
-          <Flex flex="0 1 20rem" paddingY="5rem">
+          <Flex flex="0 1 20rem" paddingY={["2rem", null, "5rem"]}>
             <Image src={props.image[0]} />
           </Flex>
-          <Flex flex="0 1 5rem" paddingY="2rem" justifyContent="center">
+          <Flex
+            display={["none", null, "flex"]}
+            flex="0 1 5rem"
+            paddingY="2rem"
+            justifyContent="center"
+          >
             <Divider orientation="vertical" borderColor="#BBB" />
           </Flex>
           <Flex
             flex="0 1 20rem"
-            paddingY="5rem"
+            paddingY={["2rem", null, "5rem"]}
             justifyContent="center"
             flexWrap="wrap"
             alignItems="center"
@@ -54,61 +108,16 @@ const Product: React.FC<ProductProps> = (props) => {
               </Text>
             </Flex>
             <Text>{props.description}</Text>
-            <Button
-              variantColor="primary"
-              width="100%"
-              leftIcon={IoMdCart}
-              onClick={() => {
-                toast({
-                  position: "top-right",
-                  title: "商品已添加至购物车",
-                  status: "success",
-                  duration: 5000,
-                  isClosable: true,
-                });
-                let cart = localStorage.getItem("cart");
-                if (!cart) {
-                  cart = JSON.stringify([
-                    {
-                      id: props._id,
-                      name: props.name,
-                      price: props.price,
-                      image: props.image[0],
-                      quantity: 1,
-                    },
-                  ]);
-                  localStorage.setItem("cart", cart);
-                } else {
-                  const a: Array<{
-                    id: string;
-                    quantity: number;
-                    name: string;
-                    price: number;
-                    image: string;
-                  }> = JSON.parse(cart);
-                  let k = 0;
-                  for (let i = 0; i < a.length; i++) {
-                    if (a[i].id === props._id) {
-                      a[i].quantity += 1;
-                      console.log(a[i].quantity);
-                      k += 1;
-                    }
-                  }
-                  if (k === 0) {
-                    a.push({
-                      id: props._id,
-                      name: props.name,
-                      quantity: 1,
-                      price: props.price,
-                      image: props.image[0],
-                    });
-                  }
-                  localStorage.setItem("cart", JSON.stringify(a));
-                }
-              }}
-            >
-              添加至购物车
-            </Button>
+            <Flex paddingY="1rem" flex="0 1 100%">
+              <Button
+                variantColor="primary"
+                width="100%"
+                leftIcon={IoMdCart}
+                onClick={addProductToCart}
+              >
+                添加至购物车
+              </Button>
+            </Flex>
           </Flex>
           <Flex paddingBottom="2rem">
             <Button

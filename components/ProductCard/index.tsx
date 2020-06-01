@@ -1,12 +1,12 @@
 import {
   Box,
-  Image,
-  Flex,
-  Text,
-  PseudoBox,
-  Link,
-  Skeleton,
   Button,
+  Flex,
+  Image,
+  Link,
+  PseudoBox,
+  Skeleton,
+  Text,
 } from "@chakra-ui/core";
 import NextLink from "next/link";
 import React, { useState } from "react";

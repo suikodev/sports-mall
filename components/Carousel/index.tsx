@@ -1,9 +1,9 @@
 /** @jsx jsx */
 import {
   CarouselProvider,
-  Slider,
   CarouselProviderProps,
   Slide,
+  Slider,
 } from "pure-react-carousel";
 import { ButtonBack, ButtonNext } from "./NavigateButton";
 import { CarouselImage, CarouselImageItem } from "./CarouselImageItem";
