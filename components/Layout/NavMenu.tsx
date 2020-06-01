@@ -18,6 +18,7 @@ import React, { useEffect, useState } from "react";
 import NavLink from "next/link";
 import { DrawerHeader } from "@chakra-ui/core/dist";
 import { fetcher } from "../../utils";
+import { useInterval } from "../../hooks/useInterval";
 
 const allCategoriesQuery = `
 {
@@ -46,7 +47,7 @@ const NavLinkButton: React.FC<ButtonProps> = (props) => (
 //I use NavMenu on Header for tablet and desktop, on Footer for mobile
 export const NavMenu: React.FC<FlexProps> = (props) => {
   const [amount, setAmount] = useState(0);
-  useEffect(() => {
+  useInterval(() => {
     const cart = localStorage.getItem("cart");
     if (cart == null) {
       setAmount(0);
@@ -54,11 +55,12 @@ export const NavMenu: React.FC<FlexProps> = (props) => {
       const cartArray = JSON.parse(cart);
       let total = 0;
       cartArray.forEach((e: { quantity: number; price: number }) => {
-        total += e.price * e.quantity;
+        total += e.price * 100 * e.quantity;
       });
-      setAmount(total);
+      setAmount(total / 100);
     }
-  }, []);
+  }, 200);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [categories, setCategories] = useState(
     [] as Array<{
