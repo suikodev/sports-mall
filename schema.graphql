@@ -1,0 +1,47 @@
+type Customer @collection(name: "customers") {
+    email: String @unique(index:"unique_customer_email")
+    orders:[Order!] @relation(name: "customer_orders")
+}
+
+type Product @collection(name: "products") {
+    name: String
+    description: String
+    quantity: Int
+    price: Float
+    path: String
+    image: [String]
+    category: Category!
+}
+
+type Category @collection(name: "categories") {
+    name: String @unique(index:"unique_category_name")
+    products: [Product!] @relation(name: "category_products")
+}
+
+type Order @collection(name: "orders") {
+    orderNumber: String @unique(index:"unique_order_number")
+    customer: Customer!
+    shipAddress: String!
+    trackingNomber: String!
+    telephone: String!
+    status: String
+    line: [ProductLine!]
+}
+
+type ProductLine @embedded {
+    product: Product!
+    quantity: Int!
+    price: Float!
+}
+
+input loginUserInput {
+    email:String!
+    password:String!
+}
+
+type Query {
+   allProducts:[Product!]
+    allCategories:[Category!]
+   searchProductsByName(name:String!):[Product!] @resolver(name:"search_products_by_name")
+   loginCustomer(input:loginUserInput!):String! @resolver(name:"login_customer")
+}
